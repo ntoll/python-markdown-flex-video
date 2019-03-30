@@ -18,7 +18,7 @@ youtube video.
 Test Youtube
 
 >>> s = "http://www.youtube.com/watch?v=E88d4e1gYh0&feature=g-logo-xit"
->>> markdown.markdown(s, ['flex_video']) #doctest: +NORMALIZE_WHITESPACE
+>>> markdown.markdown(s, extensions=['flex_video']) #doctest: +NORMALIZE_WHITESPACE
     u'<p>\\n<div class="flex-video">\\n<iframe frameborder="0" height="315" src="http://www.youtube.com/v/E88d4e1gYh0&amp;feature=g-logo-xit" width="420"></iframe>\\n</div>\\n</p>'
 
 >>> markdown.markdown(s, ['flex_video(orientation=widescreen)']) #doctest: +NORMALIZE_WHITESPACE
@@ -44,8 +44,9 @@ class VideoExtension(markdown.Extension):
         }
 
         # Override defaults with user settings
-        for key, value in configs:
-            self.setConfig(key, value)
+        if configs:
+            for key, value in configs:
+                self.setConfig(key, value)
 
     def add_inline(self, md, name, klass, re):
         pattern = klass(re)
